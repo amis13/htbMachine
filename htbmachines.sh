@@ -29,6 +29,7 @@ function helpPanel(){
 	echo -e "\t${yellowColour}o)${endColour}${grayColour} Buscar por sistema operativo${endColour}"
 	echo -e "\t${yellowColour}m)${endColour}${grayColour} Buscar por nombre de máquina${endColour}"
 	echo -e "\t${yellowColour}i)${endColour}${grayColour} Buscar por direccion IP${endColour}"
+	echo -e "\t${yellowColour}s)${endColour}${grayColour} Buscar por skills${endColour}"
 	echo -e "\t${yellowColour}y)${endColour}${grayColour} Obtener el link de youtube de la maquina${endColour}"
 	echo -e "\t${yellowColour}h)${endColour}${grayColour} Panel de ayuda${endColour}"
 }
@@ -134,6 +135,18 @@ function getOSDifficultyMachines(){
 	fi
 }
 
+function getSkill(){
+	skill="$1"
+	skill_checker="$(cat bundle.js | grep "skills: " -B 6 | grep "$skill" -i -B 6 | grep "name: " | awk 'NF{print $NF}' | tr -d '"' | tr -d ',' | column)"
+	if [ "$skill_checker" ]; then
+                echo -e "\n${yellowColour}[+]${endColour} ${grayColour} Las maquinas con la skill${endColour} ${blueColour}$skill${endColour} ${grayColour}son:${endColour}\n"
+		cat bundle.js | grep "skills: " -B 6 | grep "$skill" -i -B 6 | grep "name: " | awk 'NF{print $NF}' | tr -d '"' | tr -d ',' | column
+	else
+		echo -e "\n${redColour}[!] La skill ${yellowColour}$skill${endColour} ${redColour}no existe${endColour}\n"
+
+	fi
+}
+
 # Chivatos
 declare -i chivato_difficulty=0
 declare -i chivato_os=0
@@ -141,7 +154,7 @@ declare -i chivato_os=0
 # Indicadores
 declare -i parameter_counter=0
 
-while getopts "m:ui:y:d:o:h" arg; do
+while getopts "m:ui:y:d:o:s:h" arg; do
 	case $arg in
 		m) machineName="$OPTARG"; let parameter_counter+=1;;
 		u) let parameter_counter+=2;;
@@ -149,6 +162,7 @@ while getopts "m:ui:y:d:o:h" arg; do
 		y) machineName="$OPTARG"; let parameter_counter+=4;;
 		d) difficulty="$OPTARG"; chivato_difficulty=1;  let parameter_counter+=5;;
 		o) os="$OPTARG"; chivato_os=1; let parameter_counter+=6;;
+		s) skill="$OPTARG"; let parameter_counter+=7;;
 		h) ;;
 	esac
 done
@@ -165,6 +179,8 @@ elif [ $parameter_counter -eq 5 ]; then
 	getMachineDifficulty "$difficulty"
 elif [ $parameter_counter -eq 6 ]; then
 	getOSMachines "$os"
+elif [ $parameter_counter -eq 7 ]; then
+	getSkill "$skill"
 elif [ $chivato_difficulty -eq 1 ] && [ $chivato_os -eq 1 ]; then
 	getOSDifficultyMachines "$difficulty" "$os"
 else
