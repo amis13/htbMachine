@@ -1,12 +1,14 @@
 # htbMachine
 
-Clone the repository and grants execution permits
+Herramienta en bash para ver que máquinas estan disponibles con su resolución en Youtube por el tito S4vitar.
+
+Clona el repositorio y dale permisos de ejecución:
 
 ```bash
 chmod +x htbmachines.sh
 ```
 
-To see the help panel for use it, you only need to use the `-h` flag
+Para ver como se utiliza simplemente pon la flag `-h`:
 
 ```bash
 ./htbmachines.sh -h
