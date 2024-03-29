@@ -8,7 +8,7 @@ Clona el repositorio y dale permisos de ejecución:
 chmod +x htbmachines.sh
 ```
 
-Para ver como se utiliza simplemente pon la flag `-h`:
+Para ver como se utiliza simplemente pon la flag `-h` :
 
 ```bash
 ./htbmachines.sh -h
